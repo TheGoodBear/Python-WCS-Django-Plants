@@ -100,6 +100,8 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
     (https://docs.djangoproject.com/en/3.1/intro/tutorial02/#playing-with-the-api) 
     python manage.py shell
     Note : create data in tables, query data including from foreign tables, ...
+4 - Add meta class to models to personalize then :
+    https://docs.djangoproject.com/en/3.1/topics/db/models/#meta-options 
 
 
 ------------------------------
@@ -119,6 +121,8 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
         from .models import model1, modeln
         admin.site.register(model1)
         admin.site.register(modeln)
+6 - Customize admin site 
+    Note : admin templates are in env\Lib\site-packages\django\contrib\admin\templates\admin
 
 
 ---------
@@ -145,6 +149,8 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
 ------------------
 (Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial03/#use-the-template-system)
 (Complete guide : https://docs.djangoproject.com/en/3.1/topics/templates/)
+(Template language : https://docs.djangoproject.com/en/3.1/ref/templates/language/)
+(Template inheritance : https://docs.djangoproject.com/en/3.1/ref/templates/language/#template-inheritance)
 (Generic views basics : https://docs.djangoproject.com/en/3.1/intro/tutorial04/#use-generic-views-less-code-is-better)
 (Generic views complete guide : https://docs.djangoproject.com/en/3.1/topics/class-based-views/)
 
@@ -198,6 +204,10 @@ See also :
     - Add images files in <app name>/static/<app name>/images folder
     - In CSS file, add for example :
         background: white url("images/background.gif")
+5 - To collect static files when deploying :
+    - Add StaticFiles folder in <project name> folder (folder for static files can be any name)
+    - In <project name>/settings.py, add :
+        STATIC_ROOT = os.path.join(BASE_DIR, "StaticFiles")
 
 
 -------------------------------------

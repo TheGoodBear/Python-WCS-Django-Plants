@@ -1,0 +1,16 @@
+{% extends "./main_layout.html" %}
+
+{% block navigator_title %}Plants : Base de connaissances{% endblock navigator_title %}
+
+{% block title %}La plante en détail{% endblock %}
+
+{% block content %}
+    <div class="ElementDetail">
+        <h2>{{ vegetal.name }}</h2>
+        <img src="{{ vegetal.image.url }}" alt="{{ vegetal.name }}" title="{{ vegetal.name }}">
+        <br>
+        <a href="{{ vegetal.wiki }}" target="_blank">Pour tout savoir...</a>
+        <br>
+        <h6>{{ vegetal.comments }}</h6>
+    </div>
+{% endblock %}
