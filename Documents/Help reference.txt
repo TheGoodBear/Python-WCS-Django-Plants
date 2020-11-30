@@ -1,0 +1,277 @@
+Full documentation : https://docs.djangoproject.com/en/3.1/topics/#using-django 
+
+----------------------
+- Step by step start -
+----------------------
+(Official tutorial : https://docs.djangoproject.com/en/3.1/intro/tutorial01/)
+NOTE : as Python (and Django) is case sensitive (including at urls level), use only lowercase (or Camel case) namming for projects, apps, ...
+
+1 - After installing last Python (https://www.python.org/downloads/)
+    Note : use custom install to check appropriate boxes
+2 - Open terminal (Menu : Terminal / Nouveau Terminal)
+    Note : if python is correctly installed, py can replace python in console commands
+3 - Install virtual environement
+    python -m venv env
+    then activate (env\scripts\activate) and choose as interpreter
+4 - Install packages
+    a - Upgrade pip : python -m pip install --upgrade pip
+    b - Django : python -m pip install django
+    c - Psycopg2 (if using PostgreSQL database) : python -m pip install psycopg2
+    d - Pillow (if using ImageFields) : python -m pip install Pillow
+    e - Create requirements.txt : pip freeze > requirements.txt
+5 - Install Minimal Django App if not already done (see below)
+    django-admin startproject <project name> <path>
+    Note : path is optional (.) puts in current folder,
+    by default it is better not to give specific path, which will result in <project name> folder containing manage.py and another <project name> folder for other files
+    Note : 1st level <project name> folder can be renamed at will, not subfolder
+6 - Test Django application on development server (from folder with manage.py - ie <project name>)
+    python <project name>\manage.py runserver
+    Note : quit server with Ctrl-Break (Ctrl-C)
+
+
+---------------
+- Application -
+---------------
+(Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial01/#creating-the-polls-app) 
+
+1 - Go in <project name> folder (same level as manage.py)
+1 - Create application (app - example : polls in the tutorial)
+    python manage.py startapp <app name>
+    Note : must be in same folder as manage.py to launch from terminal
+2 - Add application to INSTALLED_APPS in <project name>/settings.py : 
+    example : "polls.apps.PollsConfig",     (matching class in polls.apps.py)
+3 - Add urls.py in <app name> folder with path to 1st view
+    from django.urls import path
+    from . import views
+    urlpatterns = [
+        path("", views.index, name="index")     # url = /<app name>/
+    ]
+4 - Add 1st view in <app name>/views.py :
+    from django.http import HttpResponse
+    def index(request):
+        return HttpResponse("Salut, bienvenue sur l'application.")
+5 - Add app urls to <project name> urls, in <project name>/urls.py :
+    from django.contrib import admin
+    from django.urls import include, path
+    urlpatterns = [
+        path('<app name>/', include('<app name>.urls')),
+        path('admin/', admin.site.urls),
+    ]
+
+
+--------------------------
+- Database configuration -
+--------------------------
+(Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial02/)
+
+1 - Create database <DB name> in SQL Engine (for example from DBeaver)
+2 - In <project name>/settings.py (example for PostgreSQL): 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': '<DB name>',
+            'USER' : 'postgres',
+            'PASSWORD' : '<PW>',
+            'HOST' : '127.0.0.1',
+            'PORT' : '5432',
+        }
+    }
+2b - Adjust Time_Zone (Europe/Paris) and Language_Code (fr-fr)
+3 - Create Django tables in DB from terminal :
+    python manage.py migrate
+
+
+-------------
+- DB models -
+-------------
+(Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial02/#creating-models)
+(Full guide : https://docs.djangoproject.com/en/3.1/topics/db/models) 
+(Splitting into multiple files : https://docs.djangoproject.com/en/3.1/topics/db/models/#organizing-models-in-a-package)
+
+1 - Make changes to the models in models.py file
+2 - Generate scripts in the migrations folder that migrate the database from its current state to the new state
+    python manage.py makemigrations <app name>       (app name is optional)
+2a - Optionally to check what django will do in the DB :
+    show sql script : python manage.py sqlmigrate polls 0001 > SQL1.sql
+    check for potential errors : python manage.py check
+3 - Apply the scripts to the actual database
+    python manage.py migrate
+3a - Optionally : possibility to play with data with integrated Django API
+    (https://docs.djangoproject.com/en/3.1/intro/tutorial02/#playing-with-the-api) 
+    python manage.py shell
+    Note : create data in tables, query data including from foreign tables, ...
+
+
+------------------------------
+- Django administration site -
+------------------------------
+(Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial02/#introducing-the-django-admin)
+(Advanced : https://docs.djangoproject.com/en/3.1/intro/tutorial07/)
+(Customize look : https://docs.djangoproject.com/en/3.1/intro/tutorial07/#customize-the-admin-look-and-feel)
+
+1 - Create super user : py manage.py createsuperuser
+    Superuser (access through site/admin) : alain/alain@micalaudie.com/AM
+2 - Run : py manage.py server
+3 - Go to admin view : /admin/ url
+4 - Login
+5 - Register app models to be usable in admin interface :
+    in <app name>/admin.py :
+        from .models import model1, modeln
+        admin.site.register(model1)
+        admin.site.register(modeln)
+
+
+---------
+- Views -
+---------
+(1st view : https://docs.djangoproject.com/en/3.1/intro/tutorial01/#write-your-first-view)
+(More views : https://docs.djangoproject.com/en/3.1/intro/tutorial03/#writing-more-views) 
+
+1 - In <app name>/views.py :
+    - import : from django.http import HttpResponse
+    - Create class :
+        def ViewName(request, parameters):
+            return HttpResponse(...)
+2 - In <app name>/urls.py :
+    - add app namespace :
+        app_name = "polls"
+    - add path to urlpatterns :
+        example for parameter = question_id (int) :
+        path("<int:question_id>/Results/", views.Results, name="results"), 
+
+
+------------------
+- View templates -
+------------------
+(Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial03/#use-the-template-system)
+(Complete guide : https://docs.djangoproject.com/en/3.1/topics/templates/)
+(Generic views basics : https://docs.djangoproject.com/en/3.1/intro/tutorial04/#use-generic-views-less-code-is-better)
+(Generic views complete guide : https://docs.djangoproject.com/en/3.1/topics/class-based-views/)
+
+1 - Add templates folder to <app name> folder
+2 - Add <app name> folder to <app name>/templates 
+3 - Add template (html file) in <app name>/templates/<app name> folder
+    example : index.html    (will be refered by <app name>/index.html url)
+4 - In index class in views.py
+    from django.shortcuts import render
+    example for polls app :
+        LatestQuestions = Question.objects.order_by("pub_date")[:5]
+        context = { "LatestQuestions" : LatestQuestions}
+        return render(request, "polls/index.html", context)
+
+
+---------------------
+- Forms in template -
+---------------------
+(Minimal form : https://docs.djangoproject.com/en/3.1/intro/tutorial04/)
+
+See also :  
+    - managing request and response : https://docs.djangoproject.com/en/3.1/ref/request-response/ 
+
+
+---------------------
+- Automated testing -
+---------------------
+(Testing backend : https://docs.djangoproject.com/en/3.1/intro/tutorial05/#writing-our-first-test)
+(Testing frontend (view) : https://docs.djangoproject.com/en/3.1/intro/tutorial05/#test-a-view)
+
+1 - Add test classes in <app name>\tests.py
+2 - Run : python manage.py test <app name>
+
+
+--------------------------
+- Static file management -
+--------------------------
+(Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial06/)
+(How to : https://docs.djangoproject.com/en/3.1/howto/static-files/)
+(Complete guide : https://docs.djangoproject.com/en/3.1/ref/contrib/staticfiles/)
+
+1 - Add static folder to <app name> folder
+2 - Add <app name> folder to <app name>/static
+3 - CSS files :
+    - files are added in <app name>/static/<app name> folder
+    - In html files (in <app name>/templates/<app name>), add for example :
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static '<app name>/style.css' %}"
+4 - Images files :
+    - Add images folder in <app name>/static/<app name> folder
+    - Add images files in <app name>/static/<app name>/images folder
+    - In CSS file, add for example :
+        background: white url("images/background.gif")
+
+
+-------------------------------------
+- Uploaded files (including images) -
+-------------------------------------
+(Simple step by step : https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html)
+(Guide : https://docs.djangoproject.com/en/3.1/topics/files/)
+(Full reference : https://docs.djangoproject.com/en/3.1/ref/files/file/)
+
+1 - Create <media folder name> for media in <project name> top level folder
+2 - In <project name>/settings.py :
+    - set MEDIA_ROOT = os.path.join(BASE_DIR, "<media folder name>")
+    - set MEDIA_URL = "\media\" (url can be anything)
+    - Add "django.template.context_processors.media" to TEMPLATES/OPTIONS/context_processors
+3 - In <project name>/urls.py, add :
+    from django.conf import settings
+    from django.conf.urls.static import static
+    if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+4 - Add FileField and/or ImageField in models
+
+
+--------------
+- Deployment -
+--------------
+(Guides : https://docs.djangoproject.com/en/3.1/howto/deployment/)
+(Checklist : https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/)
+
+1 - Deploying static files :
+    - Collect static files : python manage.py collectstatic
+    (see https://docs.djangoproject.com/en/3.1/howto/static-files/deployment/)
+
+
+-------------
+- Resources -
+-------------
+
+To start :
+    Official Dgango tutorial : https://docs.djangoproject.com/en/3.1/intro/tutorial01/ 
+    Getting Started with Python in VS Code : https://code.visualstudio.com/docs/python/python-tutorial
+    Django Tutorial in Visual Studio Code (include venv) : https://code.visualstudio.com/docs/python/tutorial-django
+
+Django documentation :
+    - Full guides : https://docs.djangoproject.com/en/3.1/topics/#using-django 
+    - How-to : https://docs.djangoproject.com/en/3.1/howto/ 
+    - FAQ : https://docs.djangoproject.com/en/3.1/faq/ 
+    - API reference : https://docs.djangoproject.com/en/3.1/ref/
+    - Publishing and packaging : https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/ 
+    - Deployement : https://docs.djangoproject.com/en/3.1/howto/deployment/ 
+        and https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/ 
+
+
+
+-----------------------------
+- venv and requirements.txt -
+-----------------------------
+(https://note.nkmk.me/en/python-pip-install-requirements/) 
+
+1 - Create requirements.txt from venv : pip freeze > requirements.txt
+2 - Install from requirements.txt : pip install -r requirements.txt
+
+
+-------------------
+- Possible errors -
+-------------------
+
+- ConnectionAbortedError: [WinError 10053] Une connexion établie a été abandonnée par un logiciel de votre ordinateur hôte
+    
+    See : https://stackoverflow.com/questions/54465300/django-connectionabortederror-winerror-10053-an-established-connection-was-a?noredirect=1&lq=1
+    In PowerShell :
+        - go to PostgreSQL bin folder (D:\program files\postgresql\12\bin)
+        - check code page problem with : .\psql -U postgres
+        - correct with : cmd.exe /c chcp 1252
+
+    Other possibility : depends on browser
+        - error with Firefox
+        - no error with Chrome or Edge
