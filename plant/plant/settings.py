@@ -130,3 +130,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "StaticFiles")
 # for uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, "UploadedFiles")
 MEDIA_URL = "/media/"
+
+# login url
+# LOGIN_URL = "/admin/"

@@ -230,6 +230,12 @@ See also :
 4 - Add FileField and/or ImageField in models
 
 
+------------------
+- Authentication -
+------------------
+(Guide : https://docs.djangoproject.com/fr/3.1/topics/auth/default/#using-the-django-authentication-system)
+
+
 --------------
 - Deployment -
 --------------

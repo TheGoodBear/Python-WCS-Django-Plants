@@ -116,3 +116,39 @@ h1 {
     padding: 10px;
     text-align: center;
 }
+
+/* game */
+.Game {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+.Game h3 {
+    width: 100%;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+    color: slategray;
+}
+
+/* .Game p {
+    width: 100%;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+    color: blue;
+    font-weight: bold;
+    font-size: larger;
+} */
+
+.Game h4 {
+    margin: 0px;
+    padding: 10px;
+}
+
+.Game img {
+    border: saddlebrown solid 5px;
+    align-self: center;
+    max-width: 150px;
+}

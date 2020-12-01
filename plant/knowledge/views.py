@@ -1,9 +1,12 @@
+import random
+
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 
-from .models import Vegetal, Category
+from .models import Vegetal, Category, Color
 
 
 # Views
@@ -27,10 +30,6 @@ class IndexView(generic.ListView):
             .order_by("-id")
             [:10])
 
-        # a=""
-        # for veg in VegetalList:
-        #     a += f"{veg.name}"
-
         return VegetalList
 
 
@@ -43,28 +42,36 @@ class DetailView(generic.DetailView):
     template_name = "knowledge/detail.html"
 
 
-    # def get_queryset(self):
-    #     """
-    #         Excludes any questions that aren't published yet.
-    #     """
-    #     return Question.objects.filter(pub_date__lte=timezone.now())
 
 
 # non generic views
 # -----------------
 
-def Game(request, question_number=None):
+@login_required(login_url="/admin/login/?next=/game/")
+def Game(request):
     """
+        Mini game
+        Redirect to login if not already logged (and back to game)
     """
-    
-    Message = "Pas de question"
-    if question_number is not None:
-        Message = f"Question {question_number}"
+
+    # get user name    
+    UserName = request.user.first_name
+
+    # get plant with pk = question_id or raise 404 error if none
+    Vegs = Vegetal.objects.all()
+    CurrentPlant = random.choice(Vegetal.objects.all())
+    Colors = Color.objects.all()
+
+    Message = f"OK {UserName}, voici la question : \nCite au moins une couleur dominante dans cette plante."
 
     return render(
         request,
         "knowledge/game.html",
-        {"Message" : Message})
+        {
+            "Message" : Message,
+            "Plant" : CurrentPlant,
+            "Colors" : Colors
+        })
 
     # # question with pk = question_id or raise 404 error if none
     # question = get_object_or_404(Question, pk=question_id)

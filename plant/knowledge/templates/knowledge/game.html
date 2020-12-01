@@ -5,7 +5,38 @@
 {% block title %}Le jeu des plantes{% endblock %}
 
 {% block content %}
-    <div>
-        <h3>{{ Message }}</h3>
+    <div class="Game">
+        <h3>{{ Message|linebreaks }}</h3>
+
+        <h4>{{ Plant.name }}</h4>
+        <img src="{{ Plant.image.url }}" alt="{{ Plant.name }}" title="{{ Plant.name }}">
+    
+        <!-- {% if result_message %}
+            <p>
+                <strong>{{ result_message }}</strong>
+            </p>
+
+        {% else %} -->
+            <form action="{% url 'knowledge:game' Plant.id %}" method="post">            
+                {% csrf_token %}
+
+                {% for Color in Colors %}
+                    <input type="radio" 
+                        name="Color" 
+                        id="Color{{ forloop.counter }}"
+                        value="{{ Color.id }}">
+                    <label for="Color{{ forloop.counter }}">
+                        {{ Color.name }}
+                    </label>
+                    <br>
+                {% endfor %}
+                
+                <br>
+                <input type="submit" value="Je donne ma réponse">
+
+            </form>
+        <!-- {% endif %} -->
+
     </div>
+
 {% endblock %}
