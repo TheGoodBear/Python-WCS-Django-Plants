@@ -9,8 +9,10 @@
         <h2>{{ vegetal.name }}</h2>
         <img src="{{ vegetal.image.url }}" alt="{{ vegetal.name }}" title="{{ vegetal.name }}">
         <br>
-        <a href="{{ vegetal.wiki }}" target="_blank">Pour tout savoir...</a>
-        <br>
+        {% if vegetal.wiki %}
+            <a href="{{ vegetal.wiki }}" target="_blank">Pour tout savoir...</a>
+            <br>
+        {% endif %}
         <h6>{{ vegetal.comments }}</h6>
     </div>
 {% endblock %}

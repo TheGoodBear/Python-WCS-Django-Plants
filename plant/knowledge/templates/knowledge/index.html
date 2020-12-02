@@ -14,8 +14,10 @@
                         <img src="{{ plant.image.url }}" alt="{{ plant.name }}" title="{{ plant.name }}">
                     </a>
                     <br>
-                    <a class="wikiLink" href="{{ plant.Wiki }}" target="_blank">Pour tout savoir...</a>
-                    <br>
+                    {% if plant.wiki %}
+                        <a class="wikiLink" href="{{ plant.wiki }}" target="_blank">Pour tout savoir...</a>
+                        <br>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>

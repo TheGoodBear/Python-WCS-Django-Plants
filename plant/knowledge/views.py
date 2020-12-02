@@ -48,64 +48,63 @@ class DetailView(generic.DetailView):
 # -----------------
 
 @login_required(login_url="/admin/login/?next=/game/")
-def Game(request):
+def Game(request, plant_id=None):
     """
         Mini game
-        Redirect to login if not already logged (and back to game)
+        @ -> Redirect to login if not already logged (and back to game)
+        if not plant_id draw random plant from Vegetal collection
+        else check for selected answer
     """
 
     # get user name    
     UserName = request.user.first_name
 
-    # get plant with pk = question_id or raise 404 error if none
-    Vegs = Vegetal.objects.all()
+    # get plant (random choice or by plant_id)
     CurrentPlant = random.choice(Vegetal.objects.all())
+    if plant_id:
+        CurrentPlant = get_object_or_404(
+            Vegetal, 
+            pk=plant_id)
+    
+    # get all existing colors
     Colors = Color.objects.all()
 
-    Message = f"OK {UserName}, voici la question : \nCite au moins une couleur dominante dans cette plante."
+    # Define default message
+    Message = f"OK {UserName}, voici la question : \nDans la liste ci-dessous, sélectionne une couleur dominante de cette plante."
 
+    # if action is post (plant_id is passed in parameters)
+    if plant_id:
+        # get post result for Color input (radio button) or none if no button was selected
+        SelectedColorID = request.POST.get("Color", None)
+        if SelectedColorID is None:
+            # no button was selected
+            Message = f"{UserName}, tu dois sélectionner une couleur dans la liste."
+        else:
+            # a button was selected
+            try:
+                # get plant color matching selected answer
+                PlantColor = CurrentPlant.color.get(
+                    pk=SelectedColorID)
+                # success
+                Message = f"BRAVO {UserName},\n{PlantColor.name} est bien une couleur dominante de {CurrentPlant.name} !"
+                Colors = None
+            except (KeyError, Color.DoesNotExist):
+                # error, this plant don't have this color
+                # get color object
+                SelectedColor = Color.objects.get(
+                    pk=SelectedColorID)
+                Message = f"Désolé {UserName},\n{SelectedColor.name} n'est pas une couleur dominante de {CurrentPlant.name}.\nLes bonnes réponses sont {', '.join(Color.name for Color in CurrentPlant.color.all())}"
+
+    # render template with appropriate context :
+    #   - Message to show to user
+    #   - Current plant object
+    #   - List of colors to create form with radio buttons
+    #       (None if answer was found -> no form will be created)
     return render(
         request,
-        "knowledge/game.html",
+        f"knowledge/game.html",
         {
             "Message" : Message,
             "Plant" : CurrentPlant,
             "Colors" : Colors
         })
-
-    # # question with pk = question_id or raise 404 error if none
-    # question = get_object_or_404(Question, pk=question_id)
-
-    # try:
-
-    #     # get selected choice (vote)
-    #     selected_choice = question.choice_set.get(
-    #         pk=request.POST["choice"])
-
-    # except (KeyError, Choice.DoesNotExist):
-
-    #     # in case of error (no choice selected in form)
-    #     # redisplay the question voting form with error message
-    #     return render(
-    #         request, 
-    #         'polls/detail.html', 
-    #         {
-    #             'question': question,
-    #             'error_message': "Vous devez choisir une réponse.",
-    #         })
-
-    # else:
-
-    #     # if vote is valid, update data in model and commit to DB
-    #     selected_choice.votes += 1
-    #     selected_choice.save()
-
-    #     # always return an HttpResponseRedirect after successfully dealing with POST data
-    #     # prevents data from being posted twice if user hits the Back button
-    #     # reverse creates the url to redirect (ie /polls/<question_id>/results)
-    #     return HttpResponseRedirect(
-    #         reverse(
-    #             'polls:results', 
-    #             args=(question.id,)
-    #             )
-    #         )

@@ -8,15 +8,10 @@
     <div class="Game">
         <h3>{{ Message|linebreaks }}</h3>
 
-        <h4>{{ Plant.name }}</h4>
+        <h4>({{ Plant.id }}) {{ Plant.name }}</h4>
         <img src="{{ Plant.image.url }}" alt="{{ Plant.name }}" title="{{ Plant.name }}">
-    
-        <!-- {% if result_message %}
-            <p>
-                <strong>{{ result_message }}</strong>
-            </p>
 
-        {% else %} -->
+        {% if Colors %}
             <form action="{% url 'knowledge:game' Plant.id %}" method="post">            
                 {% csrf_token %}
 
@@ -26,7 +21,7 @@
                         id="Color{{ forloop.counter }}"
                         value="{{ Color.id }}">
                     <label for="Color{{ forloop.counter }}">
-                        {{ Color.name }}
+                        ({{ Color.id }}) {{ Color.name }}
                     </label>
                     <br>
                 {% endfor %}
@@ -35,7 +30,7 @@
                 <input type="submit" value="Je donne ma réponse">
 
             </form>
-        <!-- {% endif %} -->
+        {% endif %}
 
     </div>
 
