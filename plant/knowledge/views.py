@@ -56,8 +56,8 @@ def Game(request, plant_id=None):
         else check for selected answer
     """
 
-    # get user name    
-    UserName = request.user.first_name
+    # get current user
+    CurrentUser = request.user
 
     # get plant (random choice or by plant_id)
     CurrentPlant = random.choice(Vegetal.objects.all())
@@ -70,7 +70,7 @@ def Game(request, plant_id=None):
     Colors = Color.objects.all()
 
     # Define default message
-    Message = f"OK {UserName}, voici la question : \nDans la liste ci-dessous, sélectionne une couleur dominante de cette plante."
+    Message = f"OK {CurrentUser.first_name}, voici la question : \nDans la liste ci-dessous, sélectionne une couleur dominante de cette plante."
 
     # if action is post (plant_id is passed in parameters)
     if plant_id:
@@ -78,7 +78,7 @@ def Game(request, plant_id=None):
         SelectedColorID = request.POST.get("Color", None)
         if SelectedColorID is None:
             # no button was selected
-            Message = f"{UserName}, tu dois sélectionner une couleur dans la liste."
+            Message = f"{CurrentUser.first_name}, tu dois sélectionner une couleur dans la liste."
         else:
             # a button was selected
             try:
@@ -86,14 +86,25 @@ def Game(request, plant_id=None):
                 PlantColor = CurrentPlant.color.get(
                     pk=SelectedColorID)
                 # success
-                Message = f"BRAVO {UserName},\n{PlantColor.name} est bien une couleur dominante de {CurrentPlant.name} !"
+                # update user data
+                CurrentUser.userdata.good_answers += 1
+                CurrentUser.userdata.save()
+                # define message
+                Message = f"BRAVO {CurrentUser.first_name},\n{PlantColor.name} est bien une couleur dominante de {CurrentPlant.name} !\n\nCette bonne réponse est ajoutée à ton profil."
+                # reset Colors so form won't be displayed anymore in view
                 Colors = None
             except (KeyError, Color.DoesNotExist):
                 # error, this plant don't have this color
                 # get color object
                 SelectedColor = Color.objects.get(
                     pk=SelectedColorID)
-                Message = f"Désolé {UserName},\n{SelectedColor.name} n'est pas une couleur dominante de {CurrentPlant.name}.\nLes bonnes réponses sont {', '.join(Color.name for Color in CurrentPlant.color.all())}"
+                # update user data
+                CurrentUser.userdata.bad_answers += 1
+                CurrentUser.userdata.save()
+                # define message
+                Message = f"Désolé {CurrentUser.first_name},\n{SelectedColor.name} n'est pas une couleur dominante de {CurrentPlant.name}.\nLes bonnes réponses sont {', '.join(Color.name for Color in CurrentPlant.color.all())}\n\nMalheureusement, cette mauvaise réponse est ajoutée à ton profil."
+                # reset Colors so form won't be displayed anymore in view
+                Colors = None
 
     # render template with appropriate context :
     #   - Message to show to user

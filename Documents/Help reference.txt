@@ -234,6 +234,7 @@ See also :
 - Authentication -
 ------------------
 (Guide : https://docs.djangoproject.com/fr/3.1/topics/auth/default/#using-the-django-authentication-system)
+(Extending the User model : https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#extending-user)
 
 
 --------------

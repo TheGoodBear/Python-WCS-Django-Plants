@@ -1,9 +1,30 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
 
-from .models import Vegetal, Category, Color
+from .models import UserData, Vegetal, Category, Color
 
-# Register your models here
 
+# Define inline admin descriptor for UserData
+# (1 to 1 relation with User)
+class UserDataInline(admin.StackedInline):
+    """
+    """
+
+    model = UserData
+    can_delete = False
+    verbose_name = "Utilisateur"
+
+
+# Define new User admin
+class UserAdmin(BaseUserAdmin):
+    inlines = (UserDataInline, )
+
+
+# Register models here
 admin.site.register(Vegetal)
 admin.site.register(Category)
 admin.site.register(Color)
+# un-register default user admin
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
