@@ -127,23 +127,13 @@ h1 {
 .Game h3 {
     width: 100%;
     text-align: center;
-    margin: 10px;
-    padding: 10px;
+    margin: 0;
+    padding: 0;
     color: slategray;
 }
 
-/* .Game p {
-    width: 100%;
-    text-align: center;
-    margin: 10px;
-    padding: 10px;
-    color: blue;
-    font-weight: bold;
-    font-size: larger;
-} */
-
 .Game h4 {
-    margin: 0px;
+    margin: 0;
     padding: 10px;
 }
 
@@ -151,4 +141,23 @@ h1 {
     border: saddlebrown solid 5px;
     align-self: center;
     max-width: 150px;
+}
+
+.Game form > div {
+    margin : 20px;
+    display : flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.Game input[type='submit'] {
+    padding: 10px;
+    font-weight: bold;
+    color : white;
+    background: darkolivegreen;
+}
+
+.Game input[type='submit']:hover {
+    color: black;
+    background: darkseagreen;
 }
