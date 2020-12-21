@@ -237,6 +237,7 @@ See also :
 (Extending the User model : https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#extending-user)
     - Note : after extending user model, you must go to user admin view and ensure related 1 to 1 data is created in related table to avoid errors when running application
 
+
 --------------
 - Deployment -
 --------------
@@ -246,6 +247,35 @@ See also :
 1 - Deploying static files :
     - Collect static files : python manage.py collectstatic
     (see https://docs.djangoproject.com/en/3.1/howto/static-files/deployment/)
+
+For Heroku : 
+    - See webinar : https://www.youtube.com/watch?v=nkw6OIaD-7Y 
+    - Download Heroku client : https://devcenter.heroku.com/articles/heroku-cli#download-and-install
+    - From Terminal (PowerShell) :
+        - heroku --version : to verify heroku installation
+        - heroku login : to log in heroku (needs an heroku account : https://heroku.com)
+        - create application : heroku apps:create <app name>
+            - for list of all apps : heroku apps
+        - add postgresql database : heroku addons:create heroku-postgresql:hobby-dev --app <app name>
+        - check heroku configuration : heroku config --app <app name>
+        - create other environment variables :
+            - secret key : heroku config:set SECRET_KEY="<secret key>" --app <app name>
+                <secret key> can be any string (example : ifnvofdnvoJHKLJNjnsa)
+            - user email : heroku config:set EMAIL_USER=<email> --app <app name>
+            - working environment (production or development) : heroku config:set WORK_ENV=production --app <app name>
+        - install heroku addon in venv : python -m pip install django-heroku
+    - Update <project name>/<project name>/settings.py :
+        - import django_heroku
+        - DEBUG = False if os.environ.get("WORK_ENV", "development") == "production" else True
+        - ALLOWED_HOSTS = [".herokuapps.com", "localhost", "127.0.0.1"]
+        - STATIC_ROOT = os.path.join(BASE_DIR, "StaticFiles")   # if not already done
+        - django_heroku.settings(locals())
+    - Add application server (for example gunicorn) :
+        - python -m pip install gunicorn
+    - Add Procfile in <project name> folder with :
+        - web: gunicorn <project name>.wsgi.py --log-file-
+
+
 
 
 -------------

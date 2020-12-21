@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+import django_heroku
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,9 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'dxt9g%=_*7eu7a7@+88m0l)#)n(xj5#ps-7(^f&idwf@md4nh$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False if os.environ.get("WORK_ENV", "development") == "production" else True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".herokuapps.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -138,3 +141,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "UploadedFiles")
 
 # login url
 # LOGIN_URL = "/admin/"
+
+
+# for Heroku
+django_heroku.settings(locals())
