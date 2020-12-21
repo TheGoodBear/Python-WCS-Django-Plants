@@ -12,7 +12,7 @@
         <img src="{{ Plant.image.url }}" alt="{{ Plant.name }}" title="{{ Plant.name }}">
 
         {% if Colors %}
-            <form action="{% url 'knowledge:game' Plant.id %}" method="post">            
+            <form action="{% url 'game:game' Plant.id %}" method="post">            
                 {% csrf_token %}
 
                 <div>

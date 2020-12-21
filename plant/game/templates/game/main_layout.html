@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>{% block navigator_title %}Plants : Accueil{% endblock navigator_title %}</title>
+        
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'knowledge/style.css' %}">
+
+    </head>
+
+    <body>
+
+        <nav>
+            <div>PLANTS</div>
+            <ul>
+                <li>
+                    <a href="/knowledge/">Accueil</a>
+                </li>
+                <li>
+                    <a href="/game/">Le jeu des plantes</a>
+                </li>
+                <li>
+                    <a href="/admin/">Gérer les données</a>
+                </li>
+            </ul>
+        </nav>
+
+        <h1>{% block title %}Quelques belles plantes{% endblock %}</h1>
+
+        <section id="content">
+            {% block content %}{% endblock %}
+        </section>
+
+    </body>
+
+</html>

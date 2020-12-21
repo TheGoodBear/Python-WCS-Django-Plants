@@ -6,15 +6,16 @@ INSERT INTO public.knowledge_category ("name",parent_id) VALUES
 	 ('Algue',NULL),
 	 ('Plante à ovules (Spermatophyte)',5),
 	 ('Plante à fleurs (Angiosperme)',6),
-	 ('Conifère (pinophyte)',6);INSERT INTO public.knowledge_color ("name") VALUES
+	 ('Conifère (pinophyte)',6);
+INSERT INTO public.knowledge_color ("name") VALUES
 	 ('Bleu'),
 	 ('Jaune'),
 	 ('Blanc'),
 	 ('Rouge'),
 	 ('Vert'),
 	 ('Orange'),
-	 ('Rose');INSERT INTO public.knowledge_userdata (good_answers,bad_answers,user_id) VALUES
-	 (1,4,1);INSERT INTO public.knowledge_vegetal ("name",image,"comments",category_id,wiki) VALUES
+	 ('Rose');
+INSERT INTO public.knowledge_vegetal ("name",image,"comments",category_id,wiki) VALUES
 	 ('Passiflore','Passiflora_caerulea_makro_close-up.jpg','Passiflora est un genre de plantes, les passiflores, de plus de 530 espèces de la famille des Passifloraceae.
 Ce sont des plantes grimpantes aux fleurs spectaculaires, mais leur abondance n''est garantie que dans les régions au climat doux.',7,'https://www.wikiwand.com/fr/Passiflore'),
 	 ('Coquelicot','fleur-rouge-coquelicot-1200x900.jpg','',7,'https://www.wikiwand.com/fr/Coquelicot'),
@@ -23,7 +24,8 @@ Ce sont des plantes grimpantes aux fleurs spectaculaires, mais leur abondance n'
 	 ('Lys','lilies.jpg','Plusieurs couleurs possibles.',7,'https://www.wikiwand.com/fr/Lys'),
 	 ('Magnolia','magnolia-arbre.jpg','',1,'https://www.wikiwand.com/fr/Magnolia'),
 	 ('Sapin','5edf8c390479b_19_coupe_sapin_de_noel_de_l_lys_e_montsauche-00_01_26_02-4527673.jpg','',8,''),
-	 ('Rose','Lions_Rose_1.jpg','',7,'');INSERT INTO public.knowledge_vegetal_color (vegetal_id,color_id) VALUES
+	 ('Rose','Lions_Rose_1.jpg','',7,'');
+INSERT INTO public.knowledge_vegetal_color (vegetal_id,color_id) VALUES
 	 (1,1),
 	 (1,3),
 	 (2,4),
