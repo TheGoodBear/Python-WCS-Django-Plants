@@ -235,7 +235,7 @@ See also :
 ------------------
 (Guide : https://docs.djangoproject.com/fr/3.1/topics/auth/default/#using-the-django-authentication-system)
 (Extending the User model : https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#extending-user)
-
+    - Note : after extending user model, you must go to user admin view and ensure related 1 to 1 data is created in related table to avoid errors when running application
 
 --------------
 - Deployment -
