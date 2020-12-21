@@ -254,15 +254,15 @@ For Heroku :
     - From Terminal (PowerShell) :
         - heroku --version : to verify heroku installation
         - heroku login : to log in heroku (needs an heroku account : https://heroku.com)
-        - create application : heroku apps:create <app name>
+        - create application : heroku apps:create <heroku app name>
             - for list of all apps : heroku apps
-        - add postgresql database : heroku addons:create heroku-postgresql:hobby-dev --app <app name>
-        - check heroku configuration : heroku config --app <app name>
+        - add postgresql database : heroku addons:create heroku-postgresql:hobby-dev --app <heroku app name>
+        - check heroku configuration : heroku config --app <heroku app name>
         - create other environment variables :
-            - secret key : heroku config:set SECRET_KEY="<secret key>" --app <app name>
+            - secret key : heroku config:set SECRET_KEY="<secret key>" --app <heroku app name>
                 <secret key> can be any string (example : ifnvofdnvoJHKLJNjnsa)
-            - user email : heroku config:set EMAIL_USER=<email> --app <app name>
-            - working environment (production or development) : heroku config:set WORK_ENV=production --app <app name>
+            - user email : heroku config:set EMAIL_USER=<email> --app <heroku app name>
+            - working environment (production or development) : heroku config:set WORK_ENV=production --app <heroku app name>
         - install heroku addon in venv : python -m pip install django-heroku
     - Update <project name>/<project name>/settings.py :
         - import django_heroku
@@ -274,6 +274,15 @@ For Heroku :
         - python -m pip install gunicorn
     - Add Procfile in <project name> folder with :
         - web: gunicorn <project name>.wsgi.py --log-file-
+    - Be sure to have requirements.txt up to date : pip freeze > requirements.txt
+    - Deploy on Heroku (via CLI and Heroku Git) :
+        - from project folder
+        - git init
+        - heroku git:remote -a <heroku app name>
+        - git add .
+        - git commit -am "my comment"
+        - git push heroku main
+
 
 
 
