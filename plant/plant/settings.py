@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'plant.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'plant_django',
+        'NAME': 'plant_django_2',
         'USER' : 'postgres',
         'PASSWORD' : 'PG20',
         'HOST' : '127.0.0.1',
