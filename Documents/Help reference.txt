@@ -257,6 +257,7 @@ For Heroku :
         - create application : heroku apps:create <heroku app name>
             - for list of all apps : heroku apps
         - add postgresql database : heroku addons:create heroku-postgresql:hobby-dev --app <heroku app name>
+            - doc : https://devcenter.heroku.com/articles/heroku-postgresql 
         - check heroku configuration : heroku config --app <heroku app name>
         - create other environment variables :
             - secret key : heroku config:set SECRET_KEY="<secret key>" --app <heroku app name>
