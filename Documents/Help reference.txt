@@ -249,7 +249,9 @@ See also :
     (see https://docs.djangoproject.com/en/3.1/howto/static-files/deployment/)
 
 For Heroku : 
-    - See webinar : https://www.youtube.com/watch?v=nkw6OIaD-7Y 
+    - See :
+        - Thierry Chapuis webinar : https://www.youtube.com/watch?v=nkw6OIaD-7Y 
+        - Geeks for Geeks : https://www.geeksforgeeks.org/how-to-deploy-django-application-on-heroku/ 
     - Download Heroku client : https://devcenter.heroku.com/articles/heroku-cli#download-and-install
     - From Terminal (PowerShell) :
         - heroku --version : to verify heroku installation
