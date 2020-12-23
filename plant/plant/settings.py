@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
-import django_heroku
+import dj_database_url
+# import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,6 +36,7 @@ ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     "game.apps.GameConfig",
     "knowledge.apps.knowledgeConfig",
     'django.contrib.admin',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,20 +85,25 @@ WSGI_APPLICATION = 'plant.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'plant_django_2',
-        'USER' : 'postgres',
-        'PASSWORD' : 'PG20',
-        'HOST' : '127.0.0.1',
-        'PORT' : '5432',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '<database_name>',
+        'USER': '<user_name>',
+        'PASSWORD': '<password>',
+        'HOST': 'localhost',
+        'PORT': '',
     }
-}
+} 
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)              
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'plantdb',
-#         'USER' : 'plantdb',
-#         'PASSWORD' : 'plantdbpass',
+#         'NAME': 'plant_django_2',
+#         'USER' : 'postgres',
+#         'PASSWORD' : 'PG20',
+#         'HOST' : '127.0.0.1',
+#         'PORT' : '5432',
 #     }
 # }
 
@@ -142,6 +150,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static/"),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, "StaticFiles")
+WHITENOISE_USE_FINDERS = True
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # for uploaded files
 MEDIA_URL = "/media/"

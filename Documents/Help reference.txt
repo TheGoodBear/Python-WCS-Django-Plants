@@ -272,7 +272,37 @@ For Heroku :
                 python-<python version>
                 - Note : <python version> example : 3.9.0 
         - settings.py :
-            - 
+            - set DEBUG :
+                DEBUG = False if os.environ.get("WORK_ENV", "development") == "production" else True
+            - create WORK_ENV in heroku (from console or web interface) :
+                heroku config:set WORK_ENV=production --app <heroku app name>
+            - modify hosts :
+                ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
+            - manage static files (add whitenoise at specified places) :
+                INSTALLED_APPS = [
+                    'whitenoise.runserver_nostatic',
+                    'django.contrib.staticfiles',
+                    # ...]
+                MIDDLEWARE = [
+                    'django.middleware.security.SecurityMiddleware',
+                    'whitenoise.middleware.WhiteNoiseMiddleware',
+                    # ...]
+                WHITENOISE_USE_FINDERS = True
+                STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+            - database settings :
+                import dj_database_url
+                DATABASES = {
+                    'default': {
+                        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                        'NAME': '<database_name>',
+                        'USER': '<user_name>',
+                        'PASSWORD': '<password>',
+                        'HOST': 'localhost',
+                        'PORT': '',
+                    }
+                }  
+                db_from_env = dj_database_url.config(conn_max_age=500)
+                DATABASES['default'].update(db_from_env)              
 
     - From Thierry Chapuis webinar : https://www.youtube.com/watch?v=nkw6OIaD-7Y 
             - add postgresql database : heroku addons:create heroku-postgresql:hobby-dev --app <heroku app name>
