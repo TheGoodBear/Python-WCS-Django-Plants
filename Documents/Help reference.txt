@@ -270,7 +270,7 @@ For Heroku :
     - Update <project name>/<project name>/settings.py :
         - import django_heroku
         - DEBUG = False if os.environ.get("WORK_ENV", "development") == "production" else True
-        - ALLOWED_HOSTS = [".herokuapps.com", "localhost", "127.0.0.1"]
+        - ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
         - STATIC_ROOT = os.path.join(BASE_DIR, "StaticFiles")   # if not already done
         - django_heroku.settings(locals())
     - Add application server (for example gunicorn) :

@@ -29,7 +29,7 @@ SECRET_KEY = 'dxt9g%=_*7eu7a7@+88m0l)#)n(xj5#ps-7(^f&idwf@md4nh$'
 # DEBUG = True
 DEBUG = False if os.environ.get("WORK_ENV", "development") == "production" else True
 
-ALLOWED_HOSTS = [".herokuapps.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
