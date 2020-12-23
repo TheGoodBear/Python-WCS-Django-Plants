@@ -249,42 +249,59 @@ See also :
     (see https://docs.djangoproject.com/en/3.1/howto/static-files/deployment/)
 
 For Heroku : 
-    - See :
-        - Thierry Chapuis webinar : https://www.youtube.com/watch?v=nkw6OIaD-7Y 
-        - Geeks for Geeks : https://www.geeksforgeeks.org/how-to-deploy-django-application-on-heroku/ 
-    - Download Heroku client : https://devcenter.heroku.com/articles/heroku-cli#download-and-install
-    - From Terminal (PowerShell) :
-        - heroku --version : to verify heroku installation
-        - heroku login : to log in heroku (needs an heroku account : https://heroku.com)
-        - create application : heroku apps:create <heroku app name>
-            - for list of all apps : heroku apps
-        - add postgresql database : heroku addons:create heroku-postgresql:hobby-dev --app <heroku app name>
-            - doc : https://devcenter.heroku.com/articles/heroku-postgresql 
-        - check heroku configuration : heroku config --app <heroku app name>
-        - create other environment variables :
-            - secret key : heroku config:set SECRET_KEY="<secret key>" --app <heroku app name>
-                <secret key> can be any string (example : ifnvofdnvoJHKLJNjnsa)
-            - user email : heroku config:set EMAIL_USER=<email> --app <heroku app name>
-            - working environment (production or development) : heroku config:set WORK_ENV=production --app <heroku app name>
-        - install heroku addon in venv : python -m pip install django-heroku
-    - Update <project name>/<project name>/settings.py :
-        - import django_heroku
-        - DEBUG = False if os.environ.get("WORK_ENV", "development") == "production" else True
-        - ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
-        - STATIC_ROOT = os.path.join(BASE_DIR, "StaticFiles")   # if not already done
-        - django_heroku.settings(locals())
-    - Add application server (for example gunicorn) :
-        - python -m pip install gunicorn
-    - Add Procfile in <project name> folder with :
-        - web: gunicorn <project name>.wsgi.py --log-file-
-    - Be sure to have requirements.txt up to date : pip freeze > requirements.txt
-    - Deploy on Heroku (via CLI and Heroku Git) :
-        - from project folder
-        - git init
-        - heroku git:remote -a <heroku app name>
-        - git add .
-        - git commit -am "my comment"
-        - git push heroku main
+    - Preparation :
+        - Download Heroku client : https://devcenter.heroku.com/articles/heroku-cli#download-and-install
+        - From Terminal (PowerShell) :
+            - heroku --version : to verify heroku installation
+            - heroku login : to log in heroku (needs an heroku account : https://heroku.com)
+            - create application : heroku apps:create <heroku app name>
+                - Note : <heroku app name> must be unique in Heroku but is independant from <project name>
+                - for list of all apps : heroku apps
+
+    - From Geeks for Geeks : https://www.geeksforgeeks.org/how-to-deploy-django-application-on-heroku/ 
+        - Note : it seems project root must be at manage.py level (not 1 level above)
+            other files at same level : requirements.txt, Procfile, Runtime.txt
+        - venv and files :
+            - install additional modules :
+                pip install dj-database-url gunicorn whitenoise
+            - update requirements.txt :
+                pip freeze > requirements.txt
+            - create Procfile with following line :
+                web: gunicorn <project name>.wsgi --log-file -
+            - create Runtime.txt file with following line :
+                python-<python version>
+                - Note : <python version> example : 3.9.0 
+        - settings.py :
+            - 
+
+    - From Thierry Chapuis webinar : https://www.youtube.com/watch?v=nkw6OIaD-7Y 
+            - add postgresql database : heroku addons:create heroku-postgresql:hobby-dev --app <heroku app name>
+                - doc : https://devcenter.heroku.com/articles/heroku-postgresql 
+            - check heroku configuration : heroku config --app <heroku app name>
+            - create other environment variables :
+                - secret key : heroku config:set SECRET_KEY="<secret key>" --app <heroku app name>
+                    <secret key> can be any string (example : ifnvofdnvoJHKLJNjnsa)
+                - user email : heroku config:set EMAIL_USER=<email> --app <heroku app name>
+                - working environment (production or development) : heroku config:set WORK_ENV=production --app <heroku app name>
+            - install heroku addon in venv : python -m pip install django-heroku
+        - Update <project name>/<project name>/settings.py :
+            - import django_heroku
+            - DEBUG = False if os.environ.get("WORK_ENV", "development") == "production" else True
+            - ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
+            - STATIC_ROOT = os.path.join(BASE_DIR, "StaticFiles")   # if not already done
+            - django_heroku.settings(locals())
+        - Add application server (for example gunicorn) :
+            - python -m pip install gunicorn
+        - Add Procfile in <project name> folder with :
+            - web: gunicorn <project name>.wsgi.py --log-file-
+        - Be sure to have requirements.txt up to date : pip freeze > requirements.txt
+        - Deploy on Heroku (via CLI and Heroku Git) :
+            - from project folder
+            - git init
+            - heroku git:remote -a <heroku app name>
+            - git add .
+            - git commit -am "my comment"
+            - git push heroku main
 
 
 
