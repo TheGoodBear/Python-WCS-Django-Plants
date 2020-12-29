@@ -22,7 +22,7 @@ def LoadDataInDjango(
     try:
         MyConnection = psycopg2.connect(
             host=DBData["HOST"] if DBData["HOST"].strip() != "" else "localhost",
-            port=DBData["PORT"] if DBData["PORT"].strip() != "" else "5432",
+            port=DBData["PORT"] if str(DBData["PORT"]).strip() != "" else "5432",
             database=DBData["NAME"],
             user=DBData["USER"],
             password=DBData["PASSWORD"])
