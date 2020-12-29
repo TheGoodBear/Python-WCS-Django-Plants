@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 
 import dj_database_url
-# import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +26,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'dxt9g%=_*7eu7a7@+88m0l)#)n(xj5#ps-7(^f&idwf@md4nh$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 DEBUG = False if os.environ.get("WORK_ENV", "development") == "production" else True
 
 ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
@@ -83,16 +81,31 @@ WSGI_APPLICATION = 'plant.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# local
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'PD1',
+        'NAME': 'PD2',
         'USER' : 'postgres',
         'PASSWORD' : 'PG20',
         'HOST' : '127.0.0.1',
         'PORT' : '5432',
     }
 }
+
+# # Heroku
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': '<database_name>',
+#         'USER': '<user_name>',
+#         'PASSWORD': '<password>',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# } 
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)              
 
 
 # Password validation
@@ -147,6 +160,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "UploadedFiles")
 # login url
 # LOGIN_URL = "/admin/"
 
-
-# for Heroku
+# Heroku
 # django_heroku.settings(locals())
