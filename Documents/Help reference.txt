@@ -3,6 +3,7 @@ Full documentation : https://docs.djangoproject.com/en/3.1/topics/#using-django
 ----------------------
 - Step by step start -
 ----------------------
+
 (Official tutorial : https://docs.djangoproject.com/en/3.1/intro/tutorial01/)
 NOTE : as Python (and Django) is case sensitive (including at urls level), use only lowercase (or Camel case) namming for projects, apps, ...
 
@@ -20,6 +21,7 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
     d - Pillow (if using ImageFields) : python -m pip install Pillow
     e - Create requirements.txt : pip freeze > requirements.txt
 5 - Install Minimal Django App if not already done (see below)
+    Note on manage.py and django-admin : https://docs.djangoproject.com/fr/3.1/ref/django-admin/ 
     django-admin startproject <project name> <path>
     Note : path is optional (.) puts in current folder,
     by default it is better not to give specific path, which will result in <project name> folder containing manage.py and another <project name> folder for other files
@@ -32,6 +34,7 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
 ---------------
 - Application -
 ---------------
+
 (Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial01/#creating-the-polls-app) 
 
 1 - Go in <project name> folder (same level as manage.py)
@@ -62,6 +65,7 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
 --------------------------
 - Database configuration -
 --------------------------
+
 (Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial02/)
 
 1 - Create database <DB name> in SQL Engine (for example from DBeaver)
@@ -84,6 +88,7 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
 -------------
 - DB models -
 -------------
+
 (Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial02/#creating-models)
 (Full guide : https://docs.djangoproject.com/en/3.1/topics/db/models) 
 (Splitting into multiple files : https://docs.djangoproject.com/en/3.1/topics/db/models/#organizing-models-in-a-package)
@@ -107,6 +112,7 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
 ------------------------------
 - Django administration site -
 ------------------------------
+
 (Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial02/#introducing-the-django-admin)
 (Advanced : https://docs.djangoproject.com/en/3.1/intro/tutorial07/)
 (Customize look : https://docs.djangoproject.com/en/3.1/intro/tutorial07/#customize-the-admin-look-and-feel)
@@ -128,6 +134,7 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
 ---------
 - Views -
 ---------
+
 (1st view : https://docs.djangoproject.com/en/3.1/intro/tutorial01/#write-your-first-view)
 (More views : https://docs.djangoproject.com/en/3.1/intro/tutorial03/#writing-more-views) 
 
@@ -147,6 +154,7 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
 ------------------
 - View templates -
 ------------------
+
 (Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial03/#use-the-template-system)
 (Complete guide : https://docs.djangoproject.com/en/3.1/topics/templates/)
 (Template language : https://docs.djangoproject.com/en/3.1/ref/templates/language/)
@@ -169,6 +177,7 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
 ---------------------
 - Forms in template -
 ---------------------
+
 (Minimal form : https://docs.djangoproject.com/en/3.1/intro/tutorial04/)
 
 See also :  
@@ -178,6 +187,7 @@ See also :
 ---------------------
 - Automated testing -
 ---------------------
+
 (Testing backend : https://docs.djangoproject.com/en/3.1/intro/tutorial05/#writing-our-first-test)
 (Testing frontend (view) : https://docs.djangoproject.com/en/3.1/intro/tutorial05/#test-a-view)
 
@@ -188,6 +198,7 @@ See also :
 --------------------------
 - Static file management -
 --------------------------
+
 (Basics : https://docs.djangoproject.com/en/3.1/intro/tutorial06/)
 (How to : https://docs.djangoproject.com/en/3.1/howto/static-files/)
 (Complete guide : https://docs.djangoproject.com/en/3.1/ref/contrib/staticfiles/)
@@ -213,6 +224,7 @@ See also :
 -------------------------------------
 - Uploaded files (including images) -
 -------------------------------------
+
 (Simple step by step : https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html)
 (Guide : https://docs.djangoproject.com/en/3.1/topics/files/)
 (Full reference : https://docs.djangoproject.com/en/3.1/ref/files/file/)
@@ -233,6 +245,7 @@ See also :
 ------------------
 - Authentication -
 ------------------
+
 (Guide : https://docs.djangoproject.com/fr/3.1/topics/auth/default/#using-the-django-authentication-system)
 (Extending the User model : https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#extending-user)
     - Note : after extending user model, you must go to user admin view and ensure related 1 to 1 data is created in related table to avoid errors when running application
@@ -241,6 +254,7 @@ See also :
 --------------
 - Deployment -
 --------------
+
 (Guides : https://docs.djangoproject.com/en/3.1/howto/deployment/)
 (Checklist : https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/)
 
@@ -248,7 +262,18 @@ See also :
     - Collect static files : python manage.py collectstatic
     (see https://docs.djangoproject.com/en/3.1/howto/static-files/deployment/)
 
-For Heroku : 
+2 - Adding initial data to django migration :
+    Note : https://docs.djangoproject.com/en/3.1/howto/initial-data/ not satisfactory
+    - Export data from DB as SQL script, in DBeaver :
+        a - Select tables from explorer list
+        b - Right-click "Export data", "as SQL INSERT", -> Next
+        c - Check "Include generated columns", "Ignore schema", "Lines per instruction" : 100, -> Next
+        d - Check "Write to single file" -> Go
+    - After migration Load SQL data with DBUtil.LoadDataInDjango()
+    
+
+
+3 - Deploying on Heroku : 
     - Preparation :
         - Download Heroku client : https://devcenter.heroku.com/articles/heroku-cli#download-and-install
         - From Terminal (PowerShell) :
@@ -262,11 +287,16 @@ For Heroku :
                 - for list of all apps : heroku apps
                         - from project folder
             - initialize heroku git (can also be linked from existing github) from project root folder : 
-                git init
-                heroku git:remote -a <heroku app name>
-                git add -a .
-                git commit -am "my comment"
-                git push heroku main (or master ?)
+                - make current folder a git repo :
+                    git init
+                - connect to remote repo on heroku :
+                    heroku git:remote -a <heroku app name>
+                - add all files as tracked by repo (git status can show tracked files) :
+                    git add -A .
+                - commit tracked files after modifications are done :
+                    git commit -am "my comment"
+                - push commits to remote repo when apprpriate :
+                    git push heroku master (or main ?)
 
     - From Geeks for Geeks : https://www.geeksforgeeks.org/how-to-deploy-django-application-on-heroku/ 
         - Note : it seems project root must be at manage.py level (not 1 level above)
@@ -319,6 +349,7 @@ For Heroku :
         - run app :
             heroku open                    
 
+    # Alternative, not fully tested
     - From Thierry Chapuis webinar : https://www.youtube.com/watch?v=nkw6OIaD-7Y 
             - add postgresql database : heroku addons:create heroku-postgresql:hobby-dev --app <heroku app name>
                 - doc : https://devcenter.heroku.com/articles/heroku-postgresql 
@@ -349,9 +380,6 @@ For Heroku :
             - git push heroku main
 
 
-
-
-
 -------------
 - Resources -
 -------------
@@ -371,10 +399,10 @@ Django documentation :
         and https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/ 
 
 
-
 -----------------------------
 - venv and requirements.txt -
 -----------------------------
+
 (https://note.nkmk.me/en/python-pip-install-requirements/) 
 
 1 - Create requirements.txt from venv : pip freeze > requirements.txt

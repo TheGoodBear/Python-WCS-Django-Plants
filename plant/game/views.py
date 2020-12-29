@@ -4,9 +4,11 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
 from knowledge.models import Vegetal, Category, Color
+from game.models import UserData
 
 
 # non generic views
@@ -25,6 +27,16 @@ def Game(request, plant_id=None):
     CurrentUser = request.user
     # get friendly user name (first_name if exists, else username)
     CurrentUserName = CurrentUser.first_name if CurrentUser.first_name.strip() else CurrentUser.username
+
+    # check if UserData exists (1 to 1 relation with auth_user)
+    try:
+        CurrentUserData = CurrentUser.userdata
+    except UserData.DoesNotExist:
+        CurrentUserData = UserData()
+        CurrentUserData.user_id = CurrentUser.id
+        CurrentUserData.save()
+        print(f"User data created for user ({CurrentUser.id}) - {CurrentUserName}")
+
 
     # get plant (random choice or by plant_id)
     CurrentPlant = random.choice(Vegetal.objects.all())
@@ -48,6 +60,7 @@ def Game(request, plant_id=None):
             Message = f"{CurrentUserName}, tu dois sélectionner une couleur dans la liste."
         else:
             # a button was selected
+
             try:
                 # get plant color matching selected answer
                 PlantColor = CurrentPlant.color.get(
@@ -65,13 +78,14 @@ def Game(request, plant_id=None):
                 # get color object
                 SelectedColor = Color.objects.get(
                     pk=SelectedColorID)
-                # update user data
+                # update user data              
                 CurrentUser.userdata.bad_answers += 1
                 CurrentUser.userdata.save()
                 # define message
                 Message = f"Désolé {CurrentUserName},\n{SelectedColor.name} n'est pas une couleur dominante de {CurrentPlant.name}.\nLes bonnes réponses sont {', '.join(Color.name for Color in CurrentPlant.color.all())}\n\nMalheureusement, cette mauvaise réponse est ajoutée à ton profil."
                 # reset Colors so form won't be displayed anymore in view
                 Colors = None
+
             
             # update message with score overview
             Message += f"\nTu as donc au total : {CurrentUser.userdata.good_answers} bonnes réponses et {CurrentUser.userdata.bad_answers} mauvaises réponses."
@@ -80,7 +94,7 @@ def Game(request, plant_id=None):
     #   - Message to show to user
     #   - Current plant object
     #   - List of colors to create form with radio buttons
-    #       (None if answer was found -> no form will be created)
+    #       (None if answer was given -> no form will be created)
     return render(
         request,
         f"game/game.html",

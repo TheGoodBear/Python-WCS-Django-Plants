@@ -1,0 +1,204 @@
+{
+"knowledge_category": [
+	{
+		"id" : 1,
+		"name" : "Hépatique (Marchantiophyte)",
+		"parent_id" : 1
+	},
+	{
+		"id" : 2,
+		"name" : "Mousse (Bryophyte)",
+		"parent_id" : 1
+	},
+	{
+		"id" : 3,
+		"name" : "Plante vasculaire (Trachéophyte)",
+		"parent_id" : 1
+	},
+	{
+		"id" : 4,
+		"name" : "Plante à embryons (Embryophyte)",
+		"parent_id" : null
+	},
+	{
+		"id" : 5,
+		"name" : "Algue",
+		"parent_id" : null
+	},
+	{
+		"id" : 6,
+		"name" : "Plante à ovules (Spermatophyte)",
+		"parent_id" : 5
+	},
+	{
+		"id" : 7,
+		"name" : "Plante à fleurs (Angiosperme)",
+		"parent_id" : 6
+	},
+	{
+		"id" : 8,
+		"name" : "Conifère (pinophyte)",
+		"parent_id" : 6
+	}
+]}
+{
+"knowledge_color": [
+	{
+		"id" : 1,
+		"name" : "Bleu"
+	},
+	{
+		"id" : 2,
+		"name" : "Jaune"
+	},
+	{
+		"id" : 3,
+		"name" : "Blanc"
+	},
+	{
+		"id" : 4,
+		"name" : "Rouge"
+	},
+	{
+		"id" : 5,
+		"name" : "Vert"
+	},
+	{
+		"id" : 6,
+		"name" : "Orange"
+	},
+	{
+		"id" : 7,
+		"name" : "Rose"
+	}
+]}
+{
+"knowledge_vegetal": [
+	{
+		"id" : 1,
+		"name" : "Passiflore",
+		"image" : "Passiflora_caerulea_makro_close-up.jpg",
+		"comments" : "Passiflora est un genre de plantes, les passiflores, de plus de 530 espèces de la famille des Passifloraceae.\r\nCe sont des plantes grimpantes aux fleurs spectaculaires, mais leur abondance n'est garantie que dans les régions au climat doux.",
+		"category_id" : 7,
+		"wiki" : "https:\/\/www.wikiwand.com\/fr\/Passiflore"
+	},
+	{
+		"id" : 2,
+		"name" : "Coquelicot",
+		"image" : "fleur-rouge-coquelicot-1200x900.jpg",
+		"comments" : "",
+		"category_id" : 7,
+		"wiki" : "https:\/\/www.wikiwand.com\/fr\/Coquelicot"
+	},
+	{
+		"id" : 3,
+		"name" : "Cèdre atlas",
+		"image" : "cedre-bleu-de-l-atlas.jpg",
+		"comments" : "",
+		"category_id" : 8,
+		"wiki" : "https:\/\/www.wikiwand.com\/fr\/Cedrus_atlantica"
+	},
+	{
+		"id" : 4,
+		"name" : "Mousse commune",
+		"image" : "polytrichum-commune-600x450.jpg",
+		"comments" : "",
+		"category_id" : 4,
+		"wiki" : "https:\/\/www.wikiwand.com\/fr\/Bryophyta"
+	},
+	{
+		"id" : 5,
+		"name" : "Lys",
+		"image" : "lilies.jpg",
+		"comments" : "Plusieurs couleurs possibles.",
+		"category_id" : 7,
+		"wiki" : "https:\/\/www.wikiwand.com\/fr\/Lys"
+	},
+	{
+		"id" : 6,
+		"name" : "Magnolia",
+		"image" : "magnolia-arbre.jpg",
+		"comments" : "",
+		"category_id" : 1,
+		"wiki" : "https:\/\/www.wikiwand.com\/fr\/Magnolia"
+	},
+	{
+		"id" : 7,
+		"name" : "Sapin",
+		"image" : "5edf8c390479b_19_coupe_sapin_de_noel_de_l_lys_e_montsauche-00_01_26_02-4527673.jpg",
+		"comments" : "",
+		"category_id" : 8,
+		"wiki" : ""
+	},
+	{
+		"id" : 8,
+		"name" : "Rose",
+		"image" : "Lions_Rose_1.jpg",
+		"comments" : "",
+		"category_id" : 7,
+		"wiki" : ""
+	}
+]}
+{
+"knowledge_vegetal_color": [
+	{
+		"id" : 1,
+		"vegetal_id" : 1,
+		"color_id" : 1
+	},
+	{
+		"id" : 2,
+		"vegetal_id" : 1,
+		"color_id" : 3
+	},
+	{
+		"id" : 3,
+		"vegetal_id" : 2,
+		"color_id" : 4
+	},
+	{
+		"id" : 4,
+		"vegetal_id" : 3,
+		"color_id" : 1
+	},
+	{
+		"id" : 5,
+		"vegetal_id" : 4,
+		"color_id" : 5
+	},
+	{
+		"id" : 6,
+		"vegetal_id" : 5,
+		"color_id" : 4
+	},
+	{
+		"id" : 7,
+		"vegetal_id" : 5,
+		"color_id" : 6
+	},
+	{
+		"id" : 8,
+		"vegetal_id" : 6,
+		"color_id" : 3
+	},
+	{
+		"id" : 9,
+		"vegetal_id" : 6,
+		"color_id" : 7
+	},
+	{
+		"id" : 10,
+		"vegetal_id" : 7,
+		"color_id" : 5
+	},
+	{
+		"id" : 11,
+		"vegetal_id" : 8,
+		"color_id" : 3
+	},
+	{
+		"id" : 12,
+		"vegetal_id" : 8,
+		"color_id" : 6
+	}
+]}
