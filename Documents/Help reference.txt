@@ -269,9 +269,8 @@ See also :
         b - Right-click "Export data", "as SQL INSERT", -> Next
         c - Check "Include generated columns", "Ignore schema", "Lines per instruction" : 100, -> Next
         d - Check "Write to single file" -> Go
-    - After migration Load SQL data with DBUtil.LoadDataInDjango()
-    
-
+    - After migration Load SQL data with :
+        py AddInitialData.py (personal utility)   
 
 3 - Deploying on Heroku : 
     - Preparation :
@@ -346,7 +345,7 @@ See also :
             heroku run python manage.py migrate 
             heroku run python manage.py createsuperuser  
             - if initial data script exists
-                heroku run python AddInitialData.py 
+                heroku run python AddInitialData.py (personal utility)
         - run app :
             heroku open                    
 

@@ -37,58 +37,72 @@ def Game(request, plant_id=None):
         CurrentUserData.save()
         print(f"User data created for user ({CurrentUser.id}) - {CurrentUserName}")
 
+    # proceed with game if all is OK
+    ProceedWithGame = True
+    CurrentPlant = None
+    Colors = None
+    Message = ""
 
     # get plant (random choice or by plant_id)
-    CurrentPlant = random.choice(Vegetal.objects.all())
-    if plant_id:
-        CurrentPlant = get_object_or_404(
-            Vegetal, 
-            pk=plant_id)
-    
-    # get all existing colors
-    Colors = Color.objects.all()
+    try:
+        CurrentPlant = random.choice(Vegetal.objects.all())
+        if plant_id:
+            CurrentPlant = get_object_or_404(
+                Vegetal, 
+                pk=plant_id)
+    except IndexError:
+        ProceedWithGame = False
+        Message = f"Désolé {CurrentUserName}, mais il n'existe aucune plante dans la base.\nIl n'est donc pas possible de jouer pour le moment."
 
-    # Define default message
-    Message = f"OK {CurrentUserName}, voici la question : \nDans la liste ci-dessous, sélectionne une couleur dominante de cette plante."
+    # start game
+    if ProceedWithGame:
+        # get all existing colors
+        Colors = Color.objects.all()
 
-    # if action is post (plant_id is passed in parameters)
-    if plant_id:
-        # get post result for Color input (radio button) or none if no button was selected
-        SelectedColorID = request.POST.get("Color", None)
-        if SelectedColorID is None:
-            # no button was selected
-            Message = f"{CurrentUserName}, tu dois sélectionner une couleur dans la liste."
-        else:
-            # a button was selected
+        # Define default message
+        Message = f"OK {CurrentUserName}, voici la question : \nDans la liste ci-dessous, sélectionne une couleur dominante de cette plante."
 
-            try:
-                # get plant color matching selected answer
-                PlantColor = CurrentPlant.color.get(
-                    pk=SelectedColorID)
-                # success
-                # update user data
-                CurrentUser.userdata.good_answers += 1
-                CurrentUser.userdata.save()
-                # define message
-                Message = f"BRAVO {CurrentUserName},\n{PlantColor.name} est bien une couleur dominante de {CurrentPlant.name} !\n\nCette bonne réponse est ajoutée à ton profil."
-                # reset Colors so form won't be displayed anymore in view
-                Colors = None
-            except (KeyError, Color.DoesNotExist):
-                # error, this plant don't have this color
-                # get color object
-                SelectedColor = Color.objects.get(
-                    pk=SelectedColorID)
-                # update user data              
-                CurrentUser.userdata.bad_answers += 1
-                CurrentUser.userdata.save()
-                # define message
-                Message = f"Désolé {CurrentUserName},\n{SelectedColor.name} n'est pas une couleur dominante de {CurrentPlant.name}.\nLes bonnes réponses sont {', '.join(Color.name for Color in CurrentPlant.color.all())}\n\nMalheureusement, cette mauvaise réponse est ajoutée à ton profil."
-                # reset Colors so form won't be displayed anymore in view
-                Colors = None
+        # if action is post (plant_id is passed in parameters)
+        if plant_id:
+            # get post result for Color input (radio button) or none if no button was selected
+            SelectedColorID = request.POST.get("Color", None)
+            if SelectedColorID is None:
+                # no button was selected
+                Message = f"{CurrentUserName}, tu dois sélectionner une couleur dans la liste."
+            else:
+                # a button was selected
 
-            
-            # update message with score overview
-            Message += f"\nTu as donc au total : {CurrentUser.userdata.good_answers} bonnes réponses et {CurrentUser.userdata.bad_answers} mauvaises réponses."
+                try:
+                    # get plant color matching selected answer
+                    PlantColor = CurrentPlant.color.get(
+                        pk=SelectedColorID)
+                    # success
+                    # update user data
+                    CurrentUser.userdata.good_answers += 1
+                    CurrentUser.userdata.save()
+                    # define message
+                    Message = f"BRAVO {CurrentUserName},\n{PlantColor.name} est bien une couleur dominante de {CurrentPlant.name} !\n\nCette bonne réponse est ajoutée à ton profil."
+                    # reset Colors so form won't be displayed anymore in view
+                    Colors = None
+                except (KeyError, Color.DoesNotExist):
+                    # error, this plant don't have this color
+                    # get color object
+                    SelectedColor = Color.objects.get(
+                        pk=SelectedColorID)
+                    # update user data              
+                    CurrentUser.userdata.bad_answers += 1
+                    CurrentUser.userdata.save()
+                    # define message
+                    GoodAnswers = (
+                        f"La bonne réponse est : {[Color.name for Color in CurrentPlant.color.all()][0]}."
+                        if len(CurrentPlant.color.all()) == 1
+                        else f"Les bonnes réponses sont : {', '.join(Color.name for Color in CurrentPlant.color.all())}.")
+                    Message = f"Désolé {CurrentUserName},\n{SelectedColor.name} n'est pas une couleur dominante de {CurrentPlant.name}.\n{GoodAnswers}\n\nMalheureusement, cette mauvaise réponse est ajoutée à ton profil."
+                    # reset Colors so form won't be displayed anymore in view
+                    Colors = None
+                
+                # update message with score overview
+                Message += f"\nTu as donc au total : {CurrentUser.userdata.good_answers} bonnes réponses et {CurrentUser.userdata.bad_answers} mauvaises réponses."
 
     # render template with appropriate context :
     #   - Message to show to user
