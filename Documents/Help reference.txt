@@ -284,7 +284,8 @@ See also :
         py AddInitialData.py (personal utility)   
 
 4 - Deploying on Heroku : 
-    *** NOTE : Static files don't work yet when DEBUG = False (but works when True)
+    *** NOTE : static files don't work yet when DEBUG = False (but works when True)
+    *** NOTE : static files can be accessed through STATIC_URL but not MEDIA_URL (/static/lilies.jpg)
     - Preparation :
         - Download Heroku client : https://devcenter.heroku.com/articles/heroku-cli#download-and-install
         - From Terminal (PowerShell) :

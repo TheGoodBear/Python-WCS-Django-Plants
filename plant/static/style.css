@@ -1,6 +1,7 @@
 /* main layout */
 body {
     background: wheat;
+    /* background: center url("/static/BackgroundImage.jpg"); */
     color: black;
     font-family: cursive;
     font-size: 1.3em;
