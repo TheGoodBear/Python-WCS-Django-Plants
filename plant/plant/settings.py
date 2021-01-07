@@ -23,7 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dxt9g%=_*7eu7a7@+88m0l)#)n(xj5#ps-7(^f&idwf@md4nh$'
+# SECRET_KEY = 'dxt9g%=_*7eu7a7@+88m0l)#)n(xj5#ps-7(^f&idwf@md4nh$'
+SECRET_KEY = os.environ.get("SECRET_KEY", "mySecretKeyFromEnvironmentVariables")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.environ.get("WORK_ENV", "development") == "production" else True
@@ -131,13 +132,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'fr-fr'
-
 TIME_ZONE = 'Europe/Paris'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -148,6 +145,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static/"),
+    os.path.join(BASE_DIR, "UploadedFiles/"),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, "StaticFiles/")
 WHITENOISE_USE_FINDERS = True
@@ -160,5 +158,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "UploadedFiles/")
 # login url
 # LOGIN_URL = "/admin/"
 
-# Heroku
-# django_heroku.settings(locals())
+# Cookies (production)
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True

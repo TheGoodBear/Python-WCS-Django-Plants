@@ -26,7 +26,7 @@ NOTE : as Python (and Django) is case sensitive (including at urls level), use o
     Note on manage.py and django-admin : https://docs.djangoproject.com/fr/3.1/ref/django-admin/ 
     django-admin startproject <project name> <path>
     Note : path is optional (.) puts in current folder,
-    by default it is better not to give specific path, which will result in <project name> folder containing manage.py and another <project name> folder for other files
+    ??? path = . better for heroku ??? by default it is better not to give specific path, which will result in <project name> folder containing manage.py and another <project name> folder for other files
     Note : 1st level <project name> folder can be renamed at will, not subfolder
 6 - Test Django application on development server (from folder with manage.py - ie <project name>)
     python <project name>\manage.py runserver
@@ -286,6 +286,7 @@ See also :
 4 - Deploying on Heroku : 
     *** NOTE : static files don't work yet when DEBUG = False (but works when True)
     *** NOTE : static files can be accessed through STATIC_URL but not MEDIA_URL (/static/lilies.jpg)
+    *** Check this ? : https://docs.djangoproject.com/en/3.1/topics/files/#the-built-in-filesystem-storage-class
     - Preparation :
         - Download Heroku client : https://devcenter.heroku.com/articles/heroku-cli#download-and-install
         - From Terminal (PowerShell) :
